@@ -6,8 +6,9 @@ import typing
 from pathlib import Path
 
 import paho.mqtt.client as mqtt
-import rhasspyhermes.cli as hermes_cli
 from rhasspyasr_pocketsphinx import PocketsphinxTranscriber
+
+import rhasspyhermes.cli as hermes_cli
 
 from . import AsrHermesMqtt
 
