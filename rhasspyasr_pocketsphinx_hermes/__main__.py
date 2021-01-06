@@ -9,6 +9,7 @@ import paho.mqtt.client as mqtt
 from rhasspyasr_pocketsphinx import PocketsphinxTranscriber
 
 import rhasspyhermes.cli as hermes_cli
+from rhasspysilence import SilenceMethod
 
 from . import AsrHermesMqtt
 
@@ -137,6 +138,27 @@ def get_args() -> argparse.Namespace:
         default=3,
         help="VAD sensitivity (1-3)",
     )
+    parser.add_argument(
+        "--voice-silence-method",
+        choices=[e.value for e in SilenceMethod],
+        default=SilenceMethod.VAD_ONLY,
+        help="Method used to determine if an audio frame contains silence (see rhasspy-silence)",
+    )
+    parser.add_argument(
+        "--voice-current-energy-threshold",
+        type=float,
+        help="Debiased energy threshold of current audio frame (see --voice-silence-method)",
+    )
+    parser.add_argument(
+        "--voice-max-energy",
+        type=float,
+        help="Fixed maximum energy for ratio calculation (default: observed, see --voice-silence-method)",
+    )
+    parser.add_argument(
+        "--voice-max-current-energy-ratio-threshold",
+        type=float,
+        help="Threshold of ratio between max energy and current audio frame (see --voice-silence-method)",
+    )
 
     hermes_cli.add_hermes_args(parser)
 
@@ -215,6 +237,10 @@ def run_mqtt(args: argparse.Namespace):
         silence_seconds=args.voice_silence_seconds,
         before_seconds=args.voice_before_seconds,
         vad_mode=args.voice_sensitivity,
+        silence_method=args.voice_silence_method,
+        current_energy_threshold=args.voice_current_energy_threshold,
+        max_energy=args.voice_max_energy,
+        max_current_energy_ratio_threshold=args.voice_max_current_energy_ratio_threshold,
         site_ids=args.site_id,
     )
 
