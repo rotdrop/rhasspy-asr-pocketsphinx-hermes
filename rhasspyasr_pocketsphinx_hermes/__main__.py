@@ -99,6 +99,7 @@ def get_args() -> argparse.Namespace:
         "--mixed-language-model-fst",
         help="Path to write mixed langauge model FST (training, mixed)",
     )
+    parser.add_argument("--lang", help="Set lang in hotword detected message")
 
     # Silence detection
     parser.add_argument(
@@ -248,6 +249,7 @@ def run_mqtt(args: argparse.Namespace):
         max_energy=args.voice_max_energy,
         max_current_energy_ratio_threshold=args.voice_max_current_energy_ratio_threshold,
         site_ids=args.site_id,
+        lang=args.lang,
     )
 
     _LOGGER.debug("Connecting to %s:%s", args.host, args.port)

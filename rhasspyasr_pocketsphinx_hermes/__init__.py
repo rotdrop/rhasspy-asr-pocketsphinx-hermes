@@ -108,6 +108,7 @@ class AsrHermesMqtt(HermesClient):
         current_energy_threshold: typing.Optional[float] = None,
         silence_method: SilenceMethod = SilenceMethod.VAD_ONLY,
         lm_cache_dir: typing.Optional[typing.Union[str, Path]] = None,
+        lang: typing.Optional[str] = None,
     ):
         super().__init__(
             "rhasspyasr_pocketsphinx_hermes",
@@ -171,6 +172,8 @@ class AsrHermesMqtt(HermesClient):
         # True if ASR system is enabled
         self.enabled = enabled
         self.disabled_reasons: typing.Set[str] = set()
+
+        self.lang = lang
 
         def default_recorder():
             return WebRtcVadRecorder(
@@ -270,7 +273,7 @@ class AsrHermesMqtt(HermesClient):
                             transcriber=session.transcriber,
                             site_id=message.site_id,
                             session_id=message.session_id,
-                            lang=session.start_listening.lang,
+                            lang=(session.start_listening.lang or self.lang),
                         )
                     )
 
@@ -354,7 +357,7 @@ class AsrHermesMqtt(HermesClient):
                                 transcriber=session.transcriber,
                                 site_id=site_id,
                                 session_id=target_id,
-                                lang=session.start_listening.lang,
+                                lang=(session.start_listening.lang or self.lang),
                             )
                         )
 
