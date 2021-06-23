@@ -12,8 +12,6 @@ import networkx as nx
 import rhasspyasr_pocketsphinx
 import rhasspynlu
 from rhasspyasr import Transcriber
-from rhasspynlu.g2p import PronunciationsType
-
 from rhasspyhermes.asr import (
     AsrAudioCaptured,
     AsrError,
@@ -32,6 +30,7 @@ from rhasspyhermes.base import Message
 from rhasspyhermes.client import GeneratorType, HermesClient, TopicArgs
 from rhasspyhermes.g2p import G2pError, G2pPhonemes, G2pPronounce, G2pPronunciation
 from rhasspyhermes.nlu import AsrToken, AsrTokenTime
+from rhasspynlu.g2p import PronunciationsType
 from rhasspysilence import (
     SilenceMethod,
     VoiceCommandRecorder,
